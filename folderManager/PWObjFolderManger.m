@@ -38,13 +38,50 @@
     return self;
 }
 
-- (void)setObj:(id)obj
+- (void)setObj:(NSObject *)obj withName:(NSString *)name;
 {
     if ([self isObjectAllreadyInfolder:obj]) {
         
     }
 
+    NSString *docPath = [self objDocPathInRootFoder:obj];
+    if (!name) {
+        name = @"file";
+    }
     
+    NSString *objPath = [NSString stringWithFormat:@"%@/%@",docPath,name];
+    
+    NSError *error;
+    [FCFileManager writeFileAtPath:objPath content:obj error:&error];
+    
+    if (error) {
+        NSLog(@"write obj error %@",error);
+    }
+}
+
+- (void)copyItemAtPath:(NSString *)path withName:(NSString *)name
+{
+    if ([FCFileManager isEmptyItemAtPath:path]) {
+        NSLog(@"path item empty!!!");
+        return;
+    }
+    
+    NSString *fileName = [path lastPathComponent];
+    
+    NSString *docPath = [self objDocPathInRootFoder:fileName];
+
+    if (!name) {
+        name = @"file";
+    }
+    
+    NSString *objPath = [NSString stringWithFormat:@"%@/%@",docPath,name];
+
+    NSError *error;
+    [FCFileManager copyItemAtPath:path toPath:objPath error:&error];
+    
+    if (error) {
+        NSLog(@"write obj error %@",error);
+    }
 }
 
 - (BOOL)isObjectAllreadyInfolder:(id)obj

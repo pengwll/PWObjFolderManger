@@ -13,6 +13,8 @@
 + (PWObjFolderManger*) sharedInstance;
 
 
-- (void)setObj:(id)obj;
+- (void)setObj:(NSObject *)obj withName:(NSString *)name;
+- (void)copyItemAtPath:(NSString *)path withName:(NSString *)name;
+
 
 @end
